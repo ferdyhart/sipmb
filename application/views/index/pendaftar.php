@@ -141,9 +141,11 @@
 
     <script>
 
-        
+  
 // Data retrieved from https://netmarketshare.com/
 // Build the chart
+//let json = "<?php $grafik ?>";
+
 Highcharts.chart('pendaftar', {
     chart: {
         plotBackgroundColor: null,
@@ -152,10 +154,10 @@ Highcharts.chart('pendaftar', {
         type: 'pie'
     },
     title: {
-        text: 'Browser market shares in March, 2022'
+        text: 'Jumlah Pendaftar Berdasarkan Prodi Pilihan 1'
     },
     tooltip: {
-        pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+        pointFormat: '{series.name}: <b>{point.jumlah:.1f}pendaftar </b>'
     },
     accessibility: {
         point: {
@@ -175,27 +177,7 @@ Highcharts.chart('pendaftar', {
     series: [{
         name: 'Brands',
         colorByPoint: true,
-        data: [{
-            name: 'Chrome',
-            y: 74.77,
-            sliced: true,
-            selected: true
-        },  {
-            name: 'Edge',
-            y: 12.82
-        },  {
-            name: 'Firefox',
-            y: 4.63
-        }, {
-            name: 'Safari',
-            y: 2.44
-        }, {
-            name: 'Internet Explorer',
-            y: 2.02
-        }, {
-            name: 'Other',
-            y: 3.28
-        }]
+        data: <?= $grafik ?>
     }]
 });
       </script>

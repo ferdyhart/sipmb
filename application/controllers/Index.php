@@ -19,6 +19,22 @@ class Index extends CI_Controller {
 
 		$prodi = $this->m_pmb->listprodi();
 		
-		$this->load->view('index/pendaftar');
+		foreach ($prodi as $key => $p) {
+			$prodi[$key]['jumlah'] = $this->m_pmb->jumlahpendaftar($p['id_prodi']);
+			$prodi[$key]['size'] = rand(10, 30); 
+		}
+
+		$result = null;
+		foreach ($prodi as $p => $prod) {
+			
+			$result[$p] = [
+				"name" => $prod['nama_prodi'],
+				"jumlah"=> $prod['jumlah'],
+				"y" 	=> $prod['size']
+			];
+		}
+		$data['pendaftar'] = $prodi;
+		$data['grafik'] = json_encode($result);
+		$this->load->view('index/pendaftar', $data);
 	}
 }
