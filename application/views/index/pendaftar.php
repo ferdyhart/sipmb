@@ -126,7 +126,15 @@
           </button>
         </div>
       </div>
-      <div id="pendaftar"></div> 
+
+       <div class="row">
+          <div class="col-md-6">
+            <div id="pendaftar"></div>
+          </div>
+          <div class="col-md-6">
+            <div id="grafik2"></div>
+          </div>
+        </div> 
       </div>
     </main>
   </div>
@@ -140,46 +148,48 @@
     <script src="<?= base_url('public') ?>/lib/highchart/code/highcharts.js"></script>
 
     <script>
-
-  
 // Data retrieved from https://netmarketshare.com/
 // Build the chart
 //let json = "<?php $grafik ?>";
-
-Highcharts.chart('pendaftar', {
-    chart: {
-        plotBackgroundColor: null,
-        plotBorderWidth: null,
-        plotShadow: false,
-        type: 'pie'
-    },
-    title: {
-        text: 'Jumlah Pendaftar Berdasarkan Prodi Pilihan 1'
-    },
-    tooltip: {
-        pointFormat: '{series.name}: <b>{point.jumlah:.1f}pendaftar </b>'
-    },
-    accessibility: {
-        point: {
-            valueSuffix: '%'
-        }
-    },
-    plotOptions: {
-        pie: {
-            allowPointSelect: true,
-            cursor: 'pointer',
-            dataLabels: {
-                enabled: false
+        getGrafikPie('pendaftar', <?= $grafik1?>, 'Grafik pendaftar berdasarkan pilihan prodi pertama')
+        getGrafikPie('grafik2', <?= $grafik2?>, 'Grafik pendaftar berdasarkan pilihan prodi kedua')
+       
+        function getGrafikPie(selector ,data , title) {
+          Highcharts.chart(selector, {
+            chart: {
+                plotBackgroundColor: null,
+                plotBorderWidth: null,
+                plotShadow: false,
+                type: 'pie'
             },
-            showInLegend: true
-        }
-    },
-    series: [{
-        name: 'Brands',
-        colorByPoint: true,
-        data: <?= $grafik ?>
-    }]
-});
+            title: {
+                text: title
+            },
+            tooltip: {
+                pointFormat: '{series.name}: <b>{point.jumlah:.1f}pendaftar </b>'
+            },
+            accessibility: {
+                point: {
+                    valueSuffix: '%'
+                }
+            },
+            plotOptions: {
+                pie: {
+                    allowPointSelect: true,
+                    cursor: 'pointer',
+                    dataLabels: {
+                        enabled: false
+                    },
+                    showInLegend: true
+                }
+            },
+            series: [{
+                name: 'pendaftar',
+                colorByPoint: true,
+                data: data
+            }]
+        });
+      }
       </script>
 
   </body>
