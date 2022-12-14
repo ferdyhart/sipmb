@@ -132,40 +132,106 @@ class Index extends BaseController
 		$data['grafikpendapatan'] = json_encode($grafik);
 		$this->render('index/grafik_pendapatan', $data);
 	}
-	public function pendaftarbank()
+
+	// public function pendaftarbank()
+    // {
+    //     $data['title'] = 'Grafik Berdasarkan ';
+    //     $prodi = $this->m_pmb->listbank();
+    //     foreach ($prodi as $key => $p) {
+    //         $prodi[$key]['jumlah'] = $this->m_pmb->jumlahtotalpendaftar($p['id_bank']);
+    //         $prodi[$key]['jumlah2'] = $this->m_pmb->jumlahtotalpendaftar1($p['id_bank']);
+    //         $prodi[$key]['size'] = rand(10, 30);
+    //     }
+
+    //     //grafik pertama
+    //     $result = null;
+    //     foreach ($prodi as $p => $prod) {
+    //         // if ($prod['jumlah'] > $sum) {
+    //         //     $sum = $prod['jumlah'];
+    //         //     $sliced = true;
+    //         //     $selected = true;
+    //         // }
+    //         $result[$p] = [
+    //             "name"  => $prod['nama_bank'],
+    //             "jumlah" => $prod['jumlah'],
+    //             "y"     => $prod['size'],
+    //             // "sliced" => $sliced,
+    //             // 'selected' => $selected
+    //         ];
+    //     }
+	// 	$hasil = null;
+    //     foreach ($prodi as $p => $prod) {
+    //         // if ($prod['jumlah'] > $sum) {
+    //         //     $sum = $prod['jumlah'];
+    //         //     $sliced = true;
+    //         //     $selected = true;
+    //         // }
+    //         $hasil[$p] = [
+    //             "name"  => $prod['nama_bank'],
+    //             "jumlah" => $prod['jumlah2'],
+    //             "y"     => $prod['size'],
+    //             // "sliced" => $sliced,
+    //             // 'selected' => $selected
+    //         ];
+    //     }
+
+
+    //     $data['pendaftar'] = $prodi;
+    //     $data['grafik1'] = json_encode($result);
+    //     $data['grafik2'] = json_encode($hasil);
+    //     $this->render('index/grafik_perbandingan', $data);
+
+	// }
+	 public function pendaftarbank()
 	{
-		$data['title'] = 'Grafik Perbandingan Pembayaran Pendaftar Berdasarkan Bank Pembayaran';
+		
+		$data['title'] = 'Grafik Perbandingan Pembayaran Pendaftar';
 		$pendaftar = $this->m_pmb->jumlahtotalpendaftar();
-		$bank = $this->m_pmb->listbank();
-
-		$categories = null;
-		$lunas = null;
-		$belum_lunas = null;
+		$pendaftar2 = $this->m_pmb->jumlahtotalpendaftar1();
+		$grafik = null;
 		$sumTotal = 0;
-		foreach ($bank as $i => $b) {
-			$categories[] = $b['bank'];
-			foreach ($pendaftar as $key => $value) {
-				if ($b['id_bank'] == $value['id_bank']) {
-					if ($value['status_bayar'] == 'Lunas') {
-						$sumTotal += $value['jumlah'];
-						$lunas[] = intval($value['jumlah']);
-					}
-				}
-			}
-		}
-		$result[] = [
-			'name' = 'Lunas',
-			'data' = $lunas,
-		];
-		$result[] = [
-			'name' = 'Belum Lunas',
-			'data' = $belum_lunas,
-		];
+		foreach ($pendaftar as $key => $value) {
+			$sumTotal += $value['jumlah'];
+			$grafik[$key] = [
+				'name' => $value['nama_bank'],
+				'jumlah' => intval($value['jumlah']),
+				'y'		=> intval($value['jumlah']),
+			];
 
-		$data['subtitle'] = 'Total Pendaftar : ' . $sumTotal;
-		$grafik['data'] = json_encode($result, 1);
-		$grafik['categories'] = json_encode($categories);
-		$data['grafik'] = $grafik;
+		}
+		$grafi = null;
+		$sumTotal = 0;
+		foreach ($pendaftar2 as $key => $value) {
+			$sumTotal += $value['jumlah'];
+			$grafi[$key] = [
+				'name' => $value['nama_bank'],
+				'jumlah' => intval($value['jumlah']),
+				'y'		=> intval($value['jumlah']),
+			];
+		}	
+		$data['subtitle'] = 'Total Pendapatan Jalur Masuk : ' . $sumTotal;
+		$data['grafik1'] = json_encode($grafik);
+		$data['grafik2'] = json_encode($grafi);
 		$this->render('index/grafik_perbandingan', $data);
 	}
+	// // public function pendaftarbank1()
+	// {
+		
+	// 	$data['title'] = 'Grafik Pendaftar yang Belum Lunas';
+	// 	$pendaftar = $this->m_pmb->jumlahtotalpendaftar1();
+	// 	$grafi = null;
+	// 	$sumTotal = 0;
+	// 	foreach ($pendaftar as $key => $value) {
+	// 		$sumTotal += $value['jumlah'];
+	// 		$grafi[$key] = [
+	// 			'name' => $value['nama_bank'],
+	// 			'jumlah' => intval($value['jumlah']),
+	// 			'y'		=> intval($value['jumlah']),
+	// 		];
+
+	// 	}
+	// 	$data['subtitle'] = 'Total Pendapatan Jalur Masuk : ' . $sumTotal;
+	// 	$data['grafikperbandingan1'] = json_encode($grafi);
+	// 	$this->render('index/grafik_perbandingan', $data);
+	// }
 }

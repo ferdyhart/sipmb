@@ -3,45 +3,57 @@
         <h1 class="h2"><?php echo !empty($title) ? $title : null ?></h1>
     </div>
     <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-6">
             <div id="pendaftar"></div>
+            <div class="col-md-14">
+            <div id="pendaftar1"></div>
         </div>
+           
     </div>
 </main>
 <script>
-    getGrafikColumn('pendaftar', <?= $grafik ?>, categories, 'Grafik Perbandingan Pembayaran Pendaftar Berdasarkan Bank Pembayaran', subtitle);
-
-    function getGrafikColumn(selector, data, categories, title, subtitle) {
-        Highcharts.chart(selector, {
+    getGrafikColumn('pendaftar', <?= $grafik1 ?>, 'Total Pendaftar Lunas : 431 Pendaftar');
+    getGrafikColumn('pendaftar1', <?= $grafik2 ?>, 'Total Pendaftar Belum Lunas : 80 Pendaftar');
     
+    function getGrafikColumn(selector, data, title, subtitle) {
+        Highcharts.chart(selector, {
     chart: {
-        type: 'column'
+        plotBackgroundColor: null,
+        plotBorderWidth: null,
+        plotShadow: false,
+        type: 'pie'
     },
     title: {
         text: title
     },
+
     subtitle: {
-        text:
-            subtitle
-    },
-    xAxis: {
-        type: categories,
-        crosshair: true
-    },
-    yAxis: {
-        min: 0,
-        title: {
-            text: 'Pendaftar'
-        }
+        text : subtitle
     },
     tooltip: {
-        formatter: function () {
-            return '<b>' + this.series.name + '</b><br/>' +
-                this.point.y + ' ' + this.point.name.toLowerCase();
+        pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+    },
+    accessibility: {
+        point: {
+            valueSuffix: '%'
         }
+    },
+    plotOptions: {
+        pie: {
+            allowPointSelect: true,
+            cursor: 'pointer',
+            dataLabels: {
+                enabled: true,
+                format: '<b>{point.name}</b>: {point.jumlah:.1f} Pendaftar'
+            },  
+        }
+    },
+    series: [{
+        name: '',
+        colorByPoint: true,
+        data: data
+    }]
     }
-});
-        
-};
-
+    );
+}
 </script>

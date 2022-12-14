@@ -55,11 +55,15 @@ class M_pmb extends CI_Model
     }
     public function jumlahtotalpendaftar()
     {
-        return $this->db->query('SELECT count(p.id_pendaftar) as jumlah, p.status_bayar, b.nama_bank from pendaftar p 
-        join bank b on p.id_bank = b.id_bank 
-        where b.id_bank != 5
-        group by b.nama_bank, p.status_bayar 
-        ')->result_array();
+        return $this->db->query('SELECT count(p.id_pendaftar) as jumlah, p.status_bayar, b.nama_bank from pendaftar p join bank b on p.id_bank = b.id_bank 
+                where p.status_bayar = "Lunas" and b.nama_bank != "SNMPTN"
+                group by b.nama_bank, p.status_bayar')->result_array();
+    }
+    public function jumlahtotalpendaftar1()
+    {
+        return $this->db->query('SELECT count(p.id_pendaftar) as jumlah, p.status_bayar, b.nama_bank from pendaftar p join bank b on p.id_bank = b.id_bank 
+                where p.status_bayar = "Belum Lunas" and b.nama_bank != "SNMPTN"
+                group by b.nama_bank, p.status_bayar ')->result_array();
     }
     public function listbank()
     {
